@@ -1,0 +1,9 @@
+
+# DIRECTORIES
+/.vs
+
+# UPLOADED FILES
+/images/images/car_groups/*
+/images/images/car_makes/*
+/images/images/memberships/*
+/images/images/vehicles/*

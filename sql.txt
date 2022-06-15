@@ -1,0 +1,183 @@
+GRANT ALL ON carrental.* TO 'admin'@'localhost' IDENTIFIED BY 'admin';
+
+CREATE TABLE Branch (
+    Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(64) NOT NULL,
+    OpensAt TIME,
+    ClosesAt TIME,
+    CoordsX FLOAT,
+    CoordsY FLOAT,
+    Location VARCHAR(128),
+    Valid BIT DEFAULT 1
+);
+
+CREATE TABLE Accounts (
+    Email VARCHAR(64) NOT NULL PRIMARY KEY,
+    FirstName VARCHAR(32) NOT NULL,
+    LastName VARCHAR(32) NOT NULL,
+    Password VARCHAR(128) NOT NULL,
+    Enabled BIT NOT NULL DEFAULT 1
+);
+
+CREATE TABLE Employees (
+    UniqueId CHAR(13) NOT NULL PRIMARY KEY,
+    WorksFrom TIME,
+    WorksUntil TIME,
+    Salary FLOAT,
+    Phone VARCHAR(24) DEAFULT 'None',
+    DateOfBirth DATE,
+    WorksAt INT NOT NULL,
+    Works BIT DEFAULT 1,
+    FOREIGN KEY (WorksAt) REFERENCES Branch(Id)
+);
+
+CREATE TABLE Salespeople (
+    UniqueId CHAR(13) NOT NULL PRIMARY KEY,
+    Email VARCHAR(64),
+    FOREIGN KEY (UniqueId) REFERENCES Employees(UniqueId),
+    FOREIGN KEY (Email) REFERENCES Accounts(Email)
+);
+
+CREATE TABLE Maintenance (
+    UniqueId CHAR(13) NOT NULL PRIMARY KEY,
+    Email VARCHAR(64),
+    FOREIGN KEY (UniqueId) REFERENCES Employees(UniqueId),
+    FOREIGN KEY (Email) REFERENCES Accounts(Email)
+);
+
+CREATE TABLE Admins (
+    UniqueId CHAR(13) NOT NULL PRIMARY KEY,
+    Email VARCHAR(64),
+    Salary FLOAT,
+    Phone VARCHAR(24) DEAFULT 'None',
+    DateOfBirth DATE,
+    Works BIT DEFAULT 1,
+    FOREIGN KEY (Email) REFERENCES Accounts(Email)
+);
+
+CREATE TABLE CarGroup (
+    Name VARCHAR(64) NOT NULL PRIMARY KEY,
+    Country VARCHAR(32)
+);
+
+CREATE TABLE CarMake (
+    Name VARCHAR(64) NOT NULL PRIMARY KEY,
+    Country VARCHAR(32),
+    `Group` VARCHAR(64),
+    FOREIGN KEY (`Group`) REFERENCES CarGroup(Name)
+);
+
+CREATE TABLE CarEngine (
+    Name VARCHAR(64) PRIMARY KEY NOT NULL,
+    Displacement FLOAT,
+    Power INT,
+    Torque INT,
+    BuiltBy VARCHAR(64),
+    FuelType VARCHAR(16),
+    FOREIGN KEY (BuiltBy) REFERENCES CarMake(Name)
+);
+
+CREATE TABLE CarModel (
+    Name VARCHAR(64) NOT NULL,
+    Submodel VARCHAR(64) NOT NULL,
+    Generation VARCHAR(16) NOT NULL,
+    Make VARCHAR(64) NOT NULL,
+    `Engine` VARCHAR(64) NOT NULL,
+    DoorsCount INT,
+    SeatsCount INT,
+    Body VARCHAR(16),
+    PRIMARY KEY (Name, Submodel, Generation, `Engine`),
+    FOREIGN KEY (Make) REFERENCES CarMake(Name),
+    FOREIGN KEY (`Engine`) REFERENCES CarEngine(Name)
+);
+
+CREATE TABLE ServiceCompanies (
+    Id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Name VARCHAR(64),
+    Location VARCHAR(128),
+    Email VARCHAR(64),
+    Phone VARCHAR(24) DEAFULT 'None',
+    `Group` VARCHAR(64),
+    Valid BIT DEFAULT 1,
+    FOREIGN KEY (`Group`) REFERENCES CarGroup(Name)
+);
+
+CREATE TABLE Vehicles (
+    RegPlate CHAR(10) PRIMARY KEY NOT NULL,
+    Model VARCHAR(64) NOT NULL,
+    Submodel VARCHAR(64) NOT NULL,
+    Generation VARCHAR(16) NOT NULL,
+    `Engine` VARCHAR(64) NOT NULL,
+    ModelYear NUMERIC(4),
+    Colour VARCHAR(16),
+    Transmission VARCHAR(16),
+    Price FLOAT,
+    PreferredService INT NOT NULL,
+    BranchId INT NOT NULL,
+    Valid BIT DEFAULT 1,
+    FOREIGN KEY (Model, Submodel, Generation, `Engine`) REFERENCES CarModel(Name, Submodel, Generation, `Engine`),
+    FOREIGN KEY (PreferredService) REFERENCES ServiceCompanies(Id),
+    FOREIGN KEY (BranchId) REFERENCES Branch(Id)
+);
+
+CREATE TABLE Customers (
+    UniqueId CHAR(13) NOT NULL PRIMARY KEY,
+    Email VARCHAR(64),
+    Phone VARCHAR(24) DEAFULT 'None',
+    FOREIGN KEY (Email) REFERENCES Accounts(Email)
+);
+
+CREATE TABLE Memberships (
+    Type VARCHAR(32) NOT NULL PRIMARY KEY,
+    Price FLOAT,
+    Duration INT,
+    Discount FLOAT,
+    Valid BIT DEFAULT 1
+);
+
+CREATE TABLE Messages (
+    Id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Subject VARCHAR(64) NOT NULL,
+    Content VARCHAR(256),
+    Viewed BIT,
+    Sender CHAR(13),
+    FOREIGN KEY (Sender) REFERENCES Customers(UniqueId)
+);
+
+CREATE TABLE Replies (
+    Id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Subject VARCHAR(64) NOT NULL,
+    Content VARCHAR(256),
+    Viewed BIT,
+    Recepient CHAR(13),
+    FOREIGN KEY (Recepient) REFERENCES Customers(UniqueId)
+);
+
+CREATE TABLE MemberData (
+    CustomerUid CHAR(13),
+    MembershipType VARCHAR(32),
+    PurchaseDate Date,
+    PRIMARY KEY (CustomerUid, MembershipType, PurchaseDate),
+    FOREIGN KEY (CustomerUid) REFERENCES Customers(UniqueId),
+    FOREIGN KEY (MembershipType) REFERENCES Memberships(Type)
+);
+
+CREATE TABLE RentData (
+    VehiclePlate CHAR(10) NOT NULL,
+    CustomerUid CHAR(13) NOT NULL,
+    FromDate DATE,
+    ToDate DATE,
+    PRIMARY KEY (VehiclePlate, CustomerUid, FromDate),
+    FOREIGN KEY (VehiclePlate) REFERENCES Vehicles(RegPlate),
+    FOREIGN KEY (CustomerUid) REFERENCES Customers(UniqueId)
+);
+
+CREATE TABLE ServiceData (
+    VehiclePlate CHAR(10) NOT NULL,
+    ServiceId INT NOT NULL,
+    `Date` DATE NOT NULL,
+    Price FLOAT,
+    PRIMARY KEY (VehiclePlate, ServiceId, `Date`),
+    FOREIGN KEY (VehiclePlate) REFERENCES Vehicles(RegPlate),
+    FOREIGN KEY (ServiceId) REFERENCES ServiceCompanies(Id)
+);

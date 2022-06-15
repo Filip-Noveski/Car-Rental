@@ -1,0 +1,2 @@
+<div class="card-large-smallimg" id="smallimg-main-map" onclick="putMap('img-main-full', <?= $branch["CoordsX"] ?>, <?= $branch["CoordsY"] ?>)" style="background-image: url('images/images/map.png')">
+</div>

@@ -1,0 +1,136 @@
+body {
+    background: #AAAAAA;
+    color: #101010;
+}
+
+.heading {
+    color: #C61111;
+}
+
+.btn {
+    border-color: #C61111;
+    color: #C61111;
+    background: linear-gradient(rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.4) 100%);
+}
+
+    .btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        font-weight: 900;
+    }
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar-item {
+}
+
+.nav-link {
+    color: #202020;
+}
+
+    .nav-link:hover {
+        color: #C61111;
+    }
+
+.nav-img {
+}
+
+.footer {
+    background: #FFFFFF;
+}
+
+.theme-back {
+    background-color: #262626;
+}
+
+.theme-info-container {
+}
+
+    .theme-back:hover .theme-info-container {
+    }
+
+.theme-info-text {
+    color: #202020;
+}
+
+.theme-toggle {
+    background-color: #C61111;
+}
+
+.error {
+    color: #C61111;
+}
+
+.success {
+    color: #008600;
+}
+
+.form-input-field {
+    border-color: #C61111;
+    color: #C61111;
+    background: linear-gradient(.125turn, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+.form-input {
+    color: #000000;
+}
+
+.form-input-option {
+    background: #DDDDDD;
+    color: #181818;
+}
+
+.card {
+    border-color: #C61111;
+    background: linear-gradient(.125turn, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+    .card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+.card-paragraph {
+    color: #C61111;
+}
+
+.card-portrait-img {
+}
+
+.card-tab-btn {
+}
+
+    .card-tab-btn:hover {
+        color: #C61111;
+    }
+
+.card-logo {
+    -webkit-filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.7));
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.7));
+}
+
+.db-table {
+    background: #CCCCCC;
+}
+
+.db-table-row {
+    color: #101010;
+}
+
+    .db-table-row:hover {
+        color: #C61111;
+    }
+
+.popup-box {
+    border-color: #C61111;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.options-item {
+    background-color: #B2B2B2;
+}
+
+    .options-item:hover {
+        background-color: #C2C2C2;
+        color: #C61111;
+    }
